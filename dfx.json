@@ -1,0 +1,12 @@
+{
+  "canisters": {
+    "methods": {
+      "type": "custom",
+      "main": "src/04-methods.ts",
+      "candid": "src/04-methods.did",
+      "build": "npx azle methods",
+      "wasm": ".azle/methods/methods.wasm",
+      "gzip": true
+    }
+  }
+}
