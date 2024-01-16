@@ -1,12 +1,12 @@
-import { Canister, update, query, text, Void } from 'azle';
+import { Canister, update, query, text, Void, StableBTreeMap, Vec } from 'azle';
 
-let name: text = 'No Name';
+const names = StableBTreeMap<string, string>(0);
 
-Canister({
-    setName: update([text], Void, (name) => {
-        name = name;
+export default Canister({
+    addName: update([text], Void, (name) => {
+        names.insert(name, name);
     }),
-    getName: query([], text, () => {
-        return name;
+    getName: query([], Vec(text), () => {
+        return names.values();
     }),
 });
