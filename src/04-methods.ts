@@ -1,12 +1,26 @@
-import { Canister, update, query, text, Void, StableBTreeMap, Vec } from 'azle';
+import { Canister, update, query, text, Void, StableBTreeMap, Vec, Record, nat8 } from 'azle';
 
-const names = StableBTreeMap<string, string>(0);
+const Student = Record({
+    id: nat8,
+    firstname: text,
+    lastname: text,
+});
+
+type Student = typeof Student.tsType;
+
+const students = StableBTreeMap<nat8, Student>(0);
 
 export default Canister({
-    addName: update([text], Void, (name) => {
-        names.insert(name, name);
+    addStudent: update([nat8, text, text], Void, (id, firstname, lastname) => {
+        const student: Student = {
+            id,
+            firstname,
+            lastname,
+        };
+
+        students.insert(student.id, student);
     }),
-    getName: query([], Vec(text), () => {
-        return names.values();
+    getAll: query([], Vec(Student), () => {
+        return students.values();
     }),
 });
